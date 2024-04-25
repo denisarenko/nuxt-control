@@ -1,0 +1,175 @@
+<template>
+  <div
+    class="relative rounded-xl border border-slate-900/10 shadow"
+    :class="classColor"
+  >
+    <FormEditorToolbar v-if="editor" :editor />
+
+    <div class="relative">
+      <EditorContent
+        class="article mx-auto max-w-4xl p-4"
+        :editor
+        @click="setLink = false"
+      />
+
+      <Transition
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100 duration-200"
+        leave-to-class="opacity-0 duration-200"
+      >
+        <textarea
+          v-if="editor && editSource"
+          class="font-mono absolute inset-0 whitespace-pre-line rounded-b-xl bg-slate-100 p-4 text-sm outline-none"
+          @input="editor.commands.setContent($event.target.value, true)"
+          v-html="editor.getHTML()"
+        />
+      </Transition>
+    </div>
+
+    <BubbleMenu
+      v-if="editor"
+      :editor
+      :class="classBubbleMenu"
+      :tippy-options="{ onHide: () => false, moveTransition: '.5s' }"
+      :should-show="({ state, from, to }) => from === to || state.selection"
+    >
+      <template v-if="!editSource">
+        <FormEditorLink :editor />
+
+        <FormEditorTable :editor />
+
+        <FormEditorImage :editor />
+
+        <FormEditorYoutube :editor />
+      </template>
+    </BubbleMenu>
+
+    <ControlFormValidate :name="$attrs['name']" />
+  </div>
+</template>
+
+<script setup>
+import { useEditor, EditorContent, BubbleMenu, Extension } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import Image from "@tiptap/extension-image";
+import Youtube from "@tiptap/extension-youtube";
+
+const TextStyles = Extension.create({
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["paragraph", "link"],
+        attributes: {
+          style: { default: null },
+        },
+      },
+    ];
+  },
+});
+
+const setLink = ref(false);
+const uploadImage = ref(false);
+const editSource = ref(false);
+const youtubeLink = ref(false);
+
+const { classButton, classToolbar, classColor } = defineProps({
+  classButton: {
+    type: String,
+    default:
+      "rounded-md bg-white p-1.5 shadow ring-1 ring-black/5 hover:bg-slate-50 disabled:opacity-50",
+  },
+  classToolbar: {
+    type: String,
+    default:
+      "sticky top-0 z-[1] gap-2 rounded-t-[inherit] border-b bg-white p-2",
+  },
+  classBubbleMenu: {
+    type: String,
+    default:
+      "divide-y overflow-hidden rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-black/5",
+  },
+  classColor: {
+    type: String,
+    default: "bg-white text-black",
+  },
+});
+
+provide("styles", { classButton, classToolbar, classColor });
+provide("actions", { setLink, uploadImage, editSource, youtubeLink });
+
+const model = defineModel({ type: String });
+
+const editor = useEditor({
+  content: model.value,
+  extensions: [
+    StarterKit.configure(),
+    Link.configure({ openOnClick: false }),
+    Table.configure({ resizable: true }),
+    TableRow,
+    TableHeader,
+    TableCell,
+    Image.extend({
+      addAttributes: () => ({
+        ...Image.config.addAttributes(),
+        class: { default: "mr-auto" },
+        style: { default: "width: 100%" },
+      }),
+    }).configure({
+      inline: true,
+    }),
+    Youtube.configure({
+      width: "100%",
+      nocookie: true,
+      modestBranding: "true",
+    }),
+    TextStyles,
+  ],
+  onUpdate: ({ editor }) => (model.value = editor.getHTML()),
+});
+
+onBeforeUnmount(() => editor.value.destroy());
+</script>
+
+<style>
+.tiptap {
+  @apply font-normal outline-0;
+
+  td,
+  th {
+    @apply relative;
+  }
+
+  .selectedCell:after {
+    @apply pointer-events-none absolute inset-0 -z-[1] bg-slate-50 content-[''];
+  }
+
+  .column-resize-handle {
+    @apply pointer-events-none absolute -inset-y-px -right-0.5 z-[1] w-1 bg-blue-500/50;
+  }
+
+  [contenteditable="false"] iframe {
+    @apply pointer-events-none;
+  }
+}
+
+.resize-cursor {
+  @apply cursor-col-resize;
+}
+
+.range {
+  @apply h-2 w-full appearance-none rounded border bg-white;
+
+  &::-webkit-slider-thumb {
+    @apply size-4 appearance-none rounded-full bg-white shadow shadow-black/20 ring-1 ring-black/5;
+  }
+}
+
+.ProseMirror-selectednode {
+  @apply ring-2 ring-blue-500/50 duration-200;
+}
+</style>
