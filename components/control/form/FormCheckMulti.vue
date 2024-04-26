@@ -14,7 +14,7 @@
           v-model="value"
           :type="$attrs['type'] || 'checkbox'"
           :name="$attrs['name']"
-          class="peer absolute inset-0 appearance-none rounded-md checked:bg-green-50 checked:ring-green-500 shadow ring-1 ring-slate-200 duration-200"
+          class="peer absolute inset-0 appearance-none rounded-md hover:bg-slate-50 checked:bg-green-50 checked:ring-green-500 shadow ring-1 ring-slate-200 duration-200"
           :value="category[keyValue]"
         />
 
