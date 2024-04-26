@@ -1,10 +1,10 @@
 <template>
   <label class="relative block">
-    <span v-if="$attrs['label']" class="mb-1 block font-medium">{{
-      $attrs["label"]
-    }}</span>
+    <span v-if="$attrs['label']" class="mb-1 block font-medium">
+      {{ $attrs["label"] }}
+    </span>
 
-    <span class="flex flex-wrap items-center gap-4">
+    <span class="control-input flex flex-wrap items-center gap-2 !px-2">
       <label
         v-for="(category, index) in options"
         :key="index"
@@ -14,11 +14,15 @@
           v-model="value"
           :type="$attrs['type'] || 'checkbox'"
           :name="$attrs['name']"
-          class="control-color-secondary absolute inset-0 appearance-none rounded-xl checked:ring-1 checked:ring-green-500"
-          :value="category[valueKey]"
+          class="peer absolute inset-0 appearance-none rounded-md checked:bg-green-50 checked:ring-green-500 shadow ring-1 ring-slate-200 duration-200"
+          :value="category[keyValue]"
         />
 
-        <span class="relative block px-4 py-2">{{ category[nameKey] }}</span>
+        <span
+          class="relative block px-2 peer-checked:text-green-800 duration-200"
+        >
+          {{ category[keyName] }}
+        </span>
       </label>
     </span>
 
@@ -34,11 +38,11 @@ defineProps({
     type: [Array, null],
     required: true,
   },
-  valueKey: {
+  keyValue: {
     type: String,
     default: "id",
   },
-  nameKey: {
+  keyName: {
     type: String,
     default: "title",
   },

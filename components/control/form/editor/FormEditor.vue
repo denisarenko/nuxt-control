@@ -1,15 +1,16 @@
 <template>
   <div
-    class="relative rounded-xl border border-slate-900/10 shadow"
+    class="relative rounded-xl ring-1 ring-slate-200 shadow"
     :class="classColor"
   >
-    <FormEditorToolbar v-if="editor" :editor />
+    <ControlFormEditorToolbar v-if="editor" :editor />
 
     <div class="relative">
       <EditorContent
         class="article mx-auto max-w-4xl p-4"
         :editor
         @click="setLink = false"
+        data-placeholder="qwe"
       />
 
       <Transition
@@ -34,13 +35,13 @@
       :should-show="({ state, from, to }) => from === to || state.selection"
     >
       <template v-if="!editSource">
-        <FormEditorLink :editor />
+        <ControlFormEditorLink :editor />
 
-        <FormEditorTable :editor />
+        <ControlFormEditorTable :editor />
 
-        <FormEditorImage :editor />
+        <ControlFormEditorImage :editor />
 
-        <FormEditorYoutube :editor />
+        <ControlFormEditorYoutube :editor />
       </template>
     </BubbleMenu>
 
@@ -50,6 +51,7 @@
 
 <script setup>
 import { useEditor, EditorContent, BubbleMenu, Extension } from "@tiptap/vue-3";
+import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Table from "@tiptap/extension-table";
@@ -108,6 +110,9 @@ const editor = useEditor({
   content: model.value,
   extensions: [
     StarterKit.configure(),
+    Placeholder.configure({
+      placeholder: 'Type Something'
+    }),
     Link.configure({ openOnClick: false }),
     Table.configure({ resizable: true }),
     TableRow,
@@ -136,6 +141,11 @@ onBeforeUnmount(() => editor.value.destroy());
 </script>
 
 <style>
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply float-left text-slate-400 pointer-events-none h-0;
+}
+
 .tiptap {
   @apply font-normal outline-0;
 

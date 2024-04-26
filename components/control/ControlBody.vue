@@ -2,7 +2,7 @@
   <section class="bg-white ring-1 ring-slate-200 shadow rounded-3xl">
     <header
       v-if="title?.length > 0"
-      class="flex gap-4 items-center p-4 border-b top-0 sticky bg-white rounded-t-3xl"
+      class="flex gap-4 items-center p-4 border-b top-0 sticky bg-white rounded-t-3xl z-[1]"
     >
       <button
         v-if="back"

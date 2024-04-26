@@ -1,6 +1,9 @@
 <template>
   <label class="block">
-    <span>{{ $attrs["label"] }}</span>
+    <span v-if="$attrs['label']" class="mb-1 block font-medium">
+      {{ $attrs["label"] }}
+    </span>
+
     <span class="relative block">
       <select
         v-model="value"
@@ -12,11 +15,6 @@
           {{ $attrs["options"] }}
         </slot>
       </select>
-
-      <SvgIcon
-        name="chevron-down"
-        class="text-primary absolute inset-y-0 right-4 size-3 h-full peer-focus:text-black"
-      />
 
       <ControlFormValidate :name="$attrs['name']" />
     </span>
