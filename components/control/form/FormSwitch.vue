@@ -21,16 +21,16 @@ const model = defineModel({ type: [Boolean] });
 defineProps({
   label: {
     type: String,
-    default: "Label",
-    required: true,
+    default: 'Label',
+    required: true
   },
   name: {
     type: String,
-    default: "",
+    default: ''
   },
   type: {
     type: String,
-    default: "checkbox",
-  },
+    default: 'checkbox'
+  }
 });
 </script>

@@ -17,7 +17,7 @@
 
       <span class="ml-2 whitespace-pre-line">
         <slot name="label">
-          {{ $attrs["label"] }}
+          {{ $attrs['label'] }}
         </slot>
       </span>
     </span>

@@ -1,15 +1,11 @@
 <template>
   <label class="relative block">
     <span v-if="$attrs['label']" class="mb-1 block font-medium">
-      {{ $attrs["label"] }}
+      {{ $attrs['label'] }}
     </span>
 
     <span class="control-input flex flex-wrap items-center gap-2 !px-2">
-      <label
-        v-for="(category, index) in options"
-        :key="index"
-        class="relative cursor-pointer"
-      >
+      <label v-for="(category, index) in options" :key="index" class="relative cursor-pointer">
         <input
           v-model="value"
           :type="$attrs['type'] || 'checkbox'"
@@ -18,9 +14,7 @@
           :value="category[keyValue]"
         />
 
-        <span
-          class="relative block px-2 peer-checked:text-green-800 duration-200"
-        >
+        <span class="relative block px-2 peer-checked:text-green-800 duration-200">
           {{ category[keyName] }}
         </span>
       </label>
@@ -36,16 +30,16 @@ const value = defineModel({ type: [Array, String, Number, null] });
 defineProps({
   options: {
     type: [Array, null],
-    required: true,
+    required: true
   },
   keyValue: {
     type: String,
-    default: "id",
+    default: 'id'
   },
   keyName: {
     type: String,
-    default: "title",
-  },
+    default: 'title'
+  }
 });
 
 defineOptions({ inheritAttrs: false });

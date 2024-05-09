@@ -22,9 +22,8 @@
           :class="[
             classButton,
             {
-              'ring-blue-500':
-                editor.getAttributes('image').class === tool.action,
-            },
+              'ring-blue-500': editor.getAttributes('image').class === tool.action
+            }
           ]"
           @click="setImage(tool.action)"
         >
@@ -38,18 +37,9 @@
     <div class="border-b border-current opacity-10" />
 
     <div class="flex items-center gap-2 p-1.5">
-      <input
-        v-model="imageSize"
-        type="range"
-        min="20"
-        max="100"
-        class="range"
-        @input="setImage()"
-      />
+      <input v-model="imageSize" type="range" min="20" max="100" class="range" @input="setImage()" />
 
-      <span class="select-none text-xs text-current opacity-50">
-        {{ imageSize }}%
-      </span>
+      <span class="select-none text-xs text-current opacity-50"> {{ imageSize }}% </span>
     </div>
   </div>
 </template>
@@ -58,12 +48,12 @@
 const { editor } = defineProps({
   editor: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
-const { classButton, classColor } = inject("styles");
-const { uploadImage } = inject("actions");
+const { classButton, classColor } = inject('styles');
+const { uploadImage } = inject('actions');
 
 const imageSize = ref();
 const imageAlt = ref();
@@ -71,57 +61,57 @@ const imageClass = ref();
 
 const toolbar = ref([
   {
-    icon: "align-left",
-    title: "Align Left",
-    action: "mr-auto",
+    icon: 'align-left',
+    title: 'Align Left',
+    action: 'mr-auto'
   },
   {
-    icon: "align-center",
-    title: "Align Center",
-    action: "mx-auto",
+    icon: 'align-center',
+    title: 'Align Center',
+    action: 'mx-auto'
   },
   {
-    icon: "align-right",
-    title: "Align Right",
-    action: "ml-auto",
+    icon: 'align-right',
+    title: 'Align Right',
+    action: 'ml-auto'
   },
 
   {
-    divide: true,
+    divide: true
   },
 
   {
-    icon: "float-left",
-    title: "Float Left",
-    action: "float-left mr-4",
+    icon: 'float-left',
+    title: 'Float Left',
+    action: 'float-left mr-4'
   },
   {
-    icon: "float-right",
-    title: "Float Right",
-    action: "float-right ml-4",
-  },
+    icon: 'float-right',
+    title: 'Float Right',
+    action: 'float-right ml-4'
+  }
 ]);
 
 watchEffect(() => {
   if (editor) {
-    imageSize.value = editor?.getAttributes("image").style?.replace(/\D/g, "");
-    imageAlt.value = editor.getAttributes("image").alt;
-    imageClass.value = editor.getAttributes("image").class;
+    imageSize.value = editor?.getAttributes('image').style?.replace(/\D/g, '');
+    imageAlt.value = editor.getAttributes('image').alt;
+    imageClass.value = editor.getAttributes('image').class;
   }
 });
 
 watch([uploadImage], () => {
   if (uploadImage.value) {
-    const input = document.createElement("input");
-    input.type = "file";
+    const input = document.createElement('input');
+    input.type = 'file';
 
     input.onchange = (event) => {
       const file = event.target.files[0];
       const body = new FormData();
 
-      body.append("image", file);
+      body.append('image', file);
 
-      $fetch("/api/media/editor", { method: "POST", body }).then((response) => {
+      $fetch('/api/media/editor', { method: 'POST', body }).then((response) => {
         editor.commands.setImage({ src: response.url });
       });
     };
@@ -136,10 +126,10 @@ const setImage = (align = null) => {
   if (align) imageClass.value = align;
 
   editor.commands.setImage({
-    src: editor.getAttributes("image").src,
+    src: editor.getAttributes('image').src,
     alt: imageAlt.value,
     style: `width: ${imageSize.value}%`,
-    class: imageClass.value,
+    class: imageClass.value
   });
 };
 </script>

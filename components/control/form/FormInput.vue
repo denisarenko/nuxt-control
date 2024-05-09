@@ -1,24 +1,12 @@
 <template>
   <label class="relative block">
     <span v-if="$attrs['label']" class="mb-1 block font-medium">
-      {{ $attrs["label"] }}
+      {{ $attrs['label'] }}
     </span>
 
-    <textarea
-      v-if="$attrs['type'] === 'textarea'"
-      v-model="model"
-      rows="3"
-      class="control-input"
-      v-bind="$attrs"
-    />
+    <textarea v-if="$attrs['type'] === 'textarea'" v-model="model" rows="3" class="control-input" v-bind="$attrs" />
 
-    <input
-      v-else
-      v-model="model"
-      class="control-input file:hidden"
-      type="text"
-      v-bind="$attrs"
-    />
+    <input v-else v-model="model" class="control-input file:hidden" type="text" v-bind="$attrs" />
 
     <ControlFormValidate :name="$attrs['name']" />
   </label>

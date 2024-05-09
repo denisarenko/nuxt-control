@@ -39,10 +39,7 @@
       <slot />
     </div>
 
-    <footer
-      v-if="$slots.footer"
-      class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0"
-    >
+    <footer v-if="$slots.footer" class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0">
       <slot name="footer" />
     </footer>
   </section>
@@ -52,17 +49,17 @@
 defineProps({
   title: {
     type: String,
-    default: undefined,
+    default: undefined
   },
   actionName: {
     type: String,
-    default: undefined,
+    default: undefined
   },
   actionLink: {
     type: String,
-    default: undefined,
+    default: undefined
   },
-  back: Boolean,
+  back: Boolean
 });
 </script>
 

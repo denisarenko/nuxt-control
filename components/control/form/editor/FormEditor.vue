@@ -1,17 +1,9 @@
 <template>
-  <div
-    class="relative rounded-xl ring-1 ring-slate-200 shadow"
-    :class="classColor"
-  >
+  <div class="relative rounded-xl ring-1 ring-slate-200 shadow" :class="classColor">
     <ControlFormEditorToolbar v-if="editor" :editor />
 
     <div class="relative">
-      <EditorContent
-        class="article mx-auto max-w-4xl p-4"
-        :editor
-        @click="setLink = false"
-        data-placeholder="qwe"
-      />
+      <EditorContent class="article mx-auto max-w-4xl p-4" :editor @click="setLink = false" data-placeholder="qwe" />
 
       <Transition
         enter-from-class="opacity-0"
@@ -50,28 +42,28 @@
 </template>
 
 <script setup>
-import { useEditor, EditorContent, BubbleMenu, Extension } from "@tiptap/vue-3";
-import Placeholder from '@tiptap/extension-placeholder'
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Table from "@tiptap/extension-table";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import TableRow from "@tiptap/extension-table-row";
-import Image from "@tiptap/extension-image";
-import Youtube from "@tiptap/extension-youtube";
+import { useEditor, EditorContent, BubbleMenu, Extension } from '@tiptap/vue-3';
+import Placeholder from '@tiptap/extension-placeholder';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
+import Image from '@tiptap/extension-image';
+import Youtube from '@tiptap/extension-youtube';
 
 const TextStyles = Extension.create({
   addGlobalAttributes() {
     return [
       {
-        types: ["paragraph", "link"],
+        types: ['paragraph', 'link'],
         attributes: {
-          style: { default: null },
-        },
-      },
+          style: { default: null }
+        }
+      }
     ];
-  },
+  }
 });
 
 const setLink = ref(false);
@@ -82,27 +74,24 @@ const youtubeLink = ref(false);
 const { classButton, classToolbar, classColor } = defineProps({
   classButton: {
     type: String,
-    default:
-      "rounded-md bg-white p-1.5 shadow ring-1 ring-black/5 hover:bg-slate-50 disabled:opacity-50",
+    default: 'rounded-md bg-white p-1.5 shadow ring-1 ring-black/5 hover:bg-slate-50 disabled:opacity-50'
   },
   classToolbar: {
     type: String,
-    default:
-      "sticky top-0 z-[1] gap-2 rounded-t-[inherit] border-b bg-white p-2",
+    default: 'sticky top-0 z-[1] gap-2 rounded-t-[inherit] border-b bg-white p-2'
   },
   classBubbleMenu: {
     type: String,
-    default:
-      "divide-y overflow-hidden rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-black/5",
+    default: 'divide-y overflow-hidden rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-black/5'
   },
   classColor: {
     type: String,
-    default: "bg-white text-black",
-  },
+    default: 'bg-white text-black'
+  }
 });
 
-provide("styles", { classButton, classToolbar, classColor });
-provide("actions", { setLink, uploadImage, editSource, youtubeLink });
+provide('styles', { classButton, classToolbar, classColor });
+provide('actions', { setLink, uploadImage, editSource, youtubeLink });
 
 const model = defineModel({ type: String });
 
@@ -121,20 +110,20 @@ const editor = useEditor({
     Image.extend({
       addAttributes: () => ({
         ...Image.config.addAttributes(),
-        class: { default: "mr-auto" },
-        style: { default: "width: 100%" },
-      }),
+        class: { default: 'mr-auto' },
+        style: { default: 'width: 100%' }
+      })
     }).configure({
-      inline: true,
+      inline: true
     }),
     Youtube.configure({
-      width: "100%",
+      width: '100%',
       nocookie: true,
-      modestBranding: "true",
+      modestBranding: 'true'
     }),
-    TextStyles,
+    TextStyles
   ],
-  onUpdate: ({ editor }) => (model.value = editor.getHTML()),
+  onUpdate: ({ editor }) => (model.value = editor.getHTML())
 });
 
 onBeforeUnmount(() => editor.value.destroy());
@@ -162,7 +151,7 @@ onBeforeUnmount(() => editor.value.destroy());
     @apply pointer-events-none absolute -inset-y-px -right-0.5 z-[1] w-1 bg-blue-500/50;
   }
 
-  [contenteditable="false"] iframe {
+  [contenteditable='false'] iframe {
     @apply pointer-events-none;
   }
 }

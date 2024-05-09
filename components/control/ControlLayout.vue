@@ -1,6 +1,6 @@
 <template>
   <div class="bg-slate-50 min-h-dvh bg-dot text-slate-800">
-    <div class="max-w-7xl mx-auto px-4">
+    <div v-if="hasAuth" class="max-w-7xl mx-auto px-4">
       <header class="py-8 flex justify-between items-center">
         <div class="flex gap-5 items-center min-h-9">
           <NuxtLink to="/">
@@ -10,7 +10,7 @@
           </NuxtLink>
         </div>
 
-        <div v-if="hasAuth" class="flex gap-5 items-center">
+        <div class="flex gap-5 items-center">
           {{ accountData.name }}
 
           <button type="button" @click="logout" class="bg-white ring-1 ring-slate-200 rounded-full size-9 flex shadow">
@@ -23,7 +23,7 @@
         </div>
       </header>
 
-      <main v-if="hasAuth" class="grid grid-cols-[250px_1fr] items-start gap-8 pb-8">
+      <main class="grid grid-cols-[250px_1fr] items-start gap-8 pb-8">
         <aside class="bg-white ring-1 ring-slate-200 shadow grid gap-2 rounded-3xl p-4 sticky top-5">
           <template v-for="menu in menuLinks" :key="menu">
             <NuxtLink
@@ -43,11 +43,19 @@
 
         <slot />
       </main>
+    </div>
 
-      <section v-else class="bg-white ring-1 ring-slate-200 shadow rounded-3xl p-5 md:py-14">
+    <main v-else class="p-5 md:py-14">
+      <section class="max-w-4xl mx-auto bg-white ring-1 ring-slate-200 shadow rounded-3xl py-10 md:py-16">
+        <div class="flex justify-center mb-10">
+          <slot name="logo">
+            <img src="https://placehold.co/150x40" alt="Control Panel Logo" />
+          </slot>
+        </div>
+
         <slot name="auth" />
       </section>
-    </div>
+    </main>
   </div>
 </template>
 
