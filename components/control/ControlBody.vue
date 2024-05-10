@@ -22,14 +22,14 @@
         </svg>
       </button>
 
-      <h2 class="text-2xl mr-auto">
+      <h2 class="text-lg lg:text-2xl mr-auto truncate max-w-full">
         {{ title }}
       </h2>
 
       <NuxtLink
         v-if="actionName"
         :to="actionLink"
-        class="ring-1 ring-slate-200 rounded-lg px-4 text-sm py-2 duration-200 hover:shadow hover:bg-slate-50"
+        class="ring-1 ring-slate-200 rounded-lg px-4 text-sm py-2 duration-200 hover:shadow hover:bg-slate-50 whitespace-nowrap"
       >
         {{ actionName }}
       </NuxtLink>
@@ -39,8 +39,15 @@
       <slot />
     </div>
 
-    <footer v-if="$slots.footer" class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0">
-      <slot name="footer" />
+    <footer
+      v-if="$slots.footer || submit"
+      class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0"
+    >
+      <slot name="footer">
+        <button type="submit" form="form" class="control-btn">
+          {{ submit || 'Submit' }}
+        </button>
+      </slot>
     </footer>
   </section>
 </template>
@@ -48,6 +55,10 @@
 <script setup>
 defineProps({
   title: {
+    type: String,
+    default: undefined
+  },
+  submit: {
     type: String,
     default: undefined
   },

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor" class="flex" :class="[classColor, classToolbar]">
+  <div v-if="editor" class="flex overflow-auto" :class="[classColor, classToolbar]">
     <template v-for="tool in toolbar" :key="tool.type">
       <button
         v-if="!tool.divide"

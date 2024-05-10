@@ -23,23 +23,8 @@
         </div>
       </header>
 
-      <main class="grid grid-cols-[250px_1fr] items-start gap-8 pb-8">
-        <aside class="bg-white ring-1 ring-slate-200 shadow grid gap-2 rounded-3xl p-4 sticky top-5">
-          <template v-for="menu in menuLinks" :key="menu">
-            <NuxtLink
-              v-if="!menu.divide"
-              :to="menu.link"
-              active-class="ring-1 ring-slate-200 shadow"
-              class="px-4 py-2 hover:bg-slate-50 rounded-lg duration-200"
-            >
-              {{ menu.name }}
-            </NuxtLink>
-
-            <div v-else class="uppercase text-xs px-4 font-semibold opacity-50 my-2">
-              {{ menu.name }}
-            </div>
-          </template>
-        </aside>
+      <main class="grid grid-cols-1 md:grid-cols-[250px_minmax(0,_1fr)] items-start gap-8 pb-8">
+        <ControlAside :menu-links />
 
         <slot />
       </main>

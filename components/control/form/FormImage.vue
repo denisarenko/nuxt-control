@@ -2,7 +2,12 @@
   <div class="bg-white ring-1 ring-slate-200 shadow relative bg-dot rounded-lg p-5">
     <input type="file" class="absolute inset-0 cursor-pointer opacity-0" @change="handleImage($event)" />
 
-    <img v-if="image || preview" :src="image || preview" alt="Image" class="mx-auto max-w-sm rounded-2xl shadow" />
+    <img
+      v-if="image || preview"
+      :src="image || preview"
+      alt="Image"
+      class="mx-auto max-w-sm w-full rounded-2xl shadow"
+    />
 
     <div v-else class="py-2 text-center">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mx-auto size-10 mb-4 text-slate-400">

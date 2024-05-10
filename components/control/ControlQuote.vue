@@ -1,5 +1,5 @@
 <template>
-  <blockquote class="text-center max-w-3xl mx-auto py-4 md:py-14 min-h-64">
+  <blockquote class="text-center max-w-3xl mx-auto py-4 md:py-14 md:min-h-64">
     <svg
       class="size-8 mx-auto text-slate-300 mb-4"
       aria-hidden="true"
@@ -13,13 +13,13 @@
     </svg>
 
     <Transition
-      enter-from-class="opacity-0 -translate-x-14 duration-500"
-      enter-to-class="opacity-100 translate-x-0 duration-500"
+      enter-from-class="opacity-0 scale-75 duration-500"
+      enter-to-class="opacity-100 scale-100 duration-500"
       leave-to-class="opacity-0"
       mode="out-in"
     >
       <div v-if="!pending">
-        <div class="text-2xl min-h-8 delay-100 mb-4">
+        <div class="text-xl md:text-2xl min-h-8 delay-100 mb-4">
           {{ quote?.content }}
         </div>
 
