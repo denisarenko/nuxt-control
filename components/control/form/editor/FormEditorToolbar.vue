@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor" class="flex overflow-auto" :class="[classColor, classToolbar]">
+  <div v-if="editor" class="flex overflow-auto" :class="[classColor, classToolbar, sticky]">
     <template v-for="tool in toolbar" :key="tool.type">
       <button
         v-if="!tool.divide"
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-const { classButton, classColor, classToolbar } = inject('styles');
+const { classButton, classColor, classToolbar, sticky } = inject('styles');
 const { setLink, uploadImage, editSource, youtubeLink } = inject('actions');
 
 const { editor } = defineProps({

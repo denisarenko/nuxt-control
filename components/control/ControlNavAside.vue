@@ -39,16 +39,26 @@
       <div v-if="navActive" class="grid gap-2">
         <template v-for="menu in menuLinks" :key="menu">
           <NuxtLink
-            v-if="!menu.divide"
+            v-if="!menu.divide && menu.link !== null"
             :to="menu.link"
-            active-class="ring-1 ring-slate-200 shadow"
-            class="px-4 py-2 hover:bg-slate-50 rounded-lg duration-200"
+            active-class="ring-1 ring-slate-200 shadow pointer-events-none"
+            class="px-4 py-2 hover:bg-slate-50 rounded-xl duration-200"
           >
             {{ menu.name }}
           </NuxtLink>
 
-          <div v-else class="uppercase text-xs px-4 font-semibold opacity-50 my-2">
+          <div v-if="menu.divide" class="uppercase text-xs px-4 font-semibold opacity-50 my-2">
             {{ menu.name }}
+          </div>
+
+          <div v-for="submenu in menu.dropdown" class="grid gap-2">
+            <NuxtLink
+              :to="submenu.link"
+              active-class="ring-1 ring-slate-200 shadow pointer-events-none"
+              class="px-4 py-2 hover:bg-slate-50 rounded-xl duration-200"
+            >
+              {{ menu.name }}: {{ submenu.name }}
+            </NuxtLink>
           </div>
         </template>
       </div>
@@ -63,6 +73,7 @@ defineProps({
     required: true
   }
 });
+
 const navActive = ref(true);
 
 onMounted(() => {

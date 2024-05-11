@@ -1,5 +1,5 @@
 <template>
-  <blockquote class="text-center max-w-3xl mx-auto py-4 md:py-14 md:min-h-64">
+  <blockquote class="text-center max-w-3xl mx-auto py-4 md:py-14">
     <svg
       class="size-8 mx-auto text-slate-300 mb-4"
       aria-hidden="true"

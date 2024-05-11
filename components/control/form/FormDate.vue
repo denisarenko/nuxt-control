@@ -1,11 +1,12 @@
 <template>
-  <div class="relative z-10">
+  <div class="relative">
     <ControlFormInput
       v-model="selectedDate"
       v-bind="$attrs"
       autocomplete="off"
       @click="showDatepicker = true"
       @click.once="initDatepicker"
+      @focusout="showDatepicker = false"
     />
 
     <Transition

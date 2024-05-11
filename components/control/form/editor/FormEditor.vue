@@ -1,9 +1,12 @@
 <template>
-  <div class="relative rounded-xl ring-1 ring-slate-200 shadow" :class="classColor">
+  <div
+    class="relative rounded-xl ring-1 ring-slate-200 shadow"
+    :class="{ 'bg-zinc-700 text-white': darkBody, classColor }"
+  >
     <ControlFormEditorToolbar v-if="editor" :editor />
 
-    <div class="relative">
-      <EditorContent class="article mx-auto max-w-4xl p-4" :editor @click="setLink = false" data-placeholder="qwe" />
+    <div class="relative rounded-b-xl">
+      <EditorContent class="article mx-auto max-w-4xl p-4" :editor @click="setLink = false" />
 
       <Transition
         enter-from-class="opacity-0"
@@ -71,26 +74,31 @@ const uploadImage = ref(false);
 const editSource = ref(false);
 const youtubeLink = ref(false);
 
-const { classButton, classToolbar, classColor } = defineProps({
+const { classButton, classToolbar, classColor, darkBody, sticky } = defineProps({
   classButton: {
     type: String,
-    default: 'rounded-md bg-white p-1.5 shadow ring-1 ring-black/5 hover:bg-slate-50 disabled:opacity-50'
+    default: 'rounded-md bg-white p-2 shadow ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50'
   },
   classToolbar: {
     type: String,
-    default: 'sticky top-0 z-[1] gap-2 rounded-t-[inherit] border-b bg-white p-2'
+    default: 'sticky z-[1] gap-2 border-b border-slate-200 bg-white rounded-t-xl p-2'
+  },
+  sticky: {
+    type: String,
+    default: 'top-0'
   },
   classBubbleMenu: {
     type: String,
-    default: 'divide-y overflow-hidden rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-black/5'
+    default: 'divide-y overflow-hidden rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-slate-200'
   },
   classColor: {
     type: String,
     default: 'bg-white text-black'
-  }
+  },
+  darkBody: Boolean
 });
 
-provide('styles', { classButton, classToolbar, classColor });
+provide('styles', { classButton, classToolbar, classColor, sticky });
 provide('actions', { setLink, uploadImage, editSource, youtubeLink });
 
 const model = defineModel({ type: String });
@@ -99,9 +107,7 @@ const editor = useEditor({
   content: model.value,
   extensions: [
     StarterKit.configure(),
-    Placeholder.configure({
-      placeholder: 'Type Something'
-    }),
+    Placeholder.configure({ placeholder: 'Type Something' }),
     Link.configure({ openOnClick: false }),
     Table.configure({ resizable: true }),
     TableRow,
@@ -164,7 +170,7 @@ onBeforeUnmount(() => editor.value.destroy());
   @apply h-2 w-full appearance-none rounded border bg-white;
 
   &::-webkit-slider-thumb {
-    @apply size-4 appearance-none rounded-full bg-white shadow shadow-black/20 ring-1 ring-black/5;
+    @apply size-4 appearance-none rounded-full bg-white shadow shadow-black/20 ring-1 ring-slate-200;
   }
 }
 

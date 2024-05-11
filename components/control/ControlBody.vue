@@ -44,7 +44,7 @@
       class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0"
     >
       <slot name="footer">
-        <button type="submit" form="form" class="control-btn">
+        <button type="submit" form="form" class="control-btn mx-auto">
           {{ submit || 'Submit' }}
         </button>
       </slot>
