@@ -6,17 +6,13 @@
     >
       <button
         v-if="back"
-        class="group ring-1 ring-slate-200 rounded-lg p-2 duration-200 hover:shadow hover:bg-slate-50"
+        class="ring-1 ring-slate-200 rounded-xl size-10 duration-200 hover:shadow hover:bg-slate-50 text-slate-400 hover:text-black"
         @click="$router.back()"
         title="Back"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 320 512"
-          class="size-4 text-slate-400 group-hover:text-slate-800 duration-200"
-          fill="currentColor"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="size-4 m-auto">
           <path
+            fill="currentColor"
             d="M15 239c-9.4 9.4-9.4 24.6 0 33.9L207 465c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9L65.9 256 241 81c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L15 239z"
           />
         </svg>
@@ -26,12 +22,10 @@
         {{ title }}
       </h2>
 
-      <NuxtLink
-        v-if="actionName"
-        :to="actionLink"
-        class="ring-1 ring-slate-200 rounded-lg px-4 text-sm py-2 duration-200 hover:shadow hover:bg-slate-50 whitespace-nowrap"
-      >
-        {{ actionName }}
+      <NuxtLink v-if="actionName" :to="actionLink" class="p-px rounded-xl duration-200 hover:shadow h-10" data-radial>
+        <div class="bg-white/95 px-3 md:px-5 py-1 whitespace-nowrap rounded-[11px] h-full flex items-center">
+          {{ actionName }}
+        </div>
       </NuxtLink>
     </header>
 

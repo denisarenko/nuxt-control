@@ -1,6 +1,10 @@
 <template>
-  <nav class="relative max-sm:order-1 max-sm:w-full" @mouseleave="menuLinks.forEach((link) => (link.isActive = false))">
-    <div class="ring-1 ring-slate-200 max-w-sm lg:max-w-xl rounded-full shadow bg-white overflow-auto flex p-1 gap-1">
+  <nav
+    class="relative max-sm:order-1 mx-auto p-px rounded-full"
+    @mouseleave="menuLinks.forEach((link) => (link.isActive = false))"
+    data-radial
+  >
+    <div class="max-w-sm lg:max-w-xl rounded-full shadow bg-white overflow-auto flex p-1 gap-1">
       <NuxtLink
         to="/control"
         active-class="pointer-events-none"
@@ -19,7 +23,7 @@
           :to="menu.link"
           v-if="menu.name.toLowerCase() !== 'home'"
           active-class="ring-1 ring-slate-200 shadow pointer-events-none"
-          class="rounded-3xl block px-4 py-1 hover:ring-1 ring-slate-200 duration-200 cursor-pointer whitespace-nowrap"
+          class="rounded-full block px-4 py-1 hover:ring-1 ring-slate-200 duration-200 cursor-pointer whitespace-nowrap"
           @mouseover="
             menuLinks.forEach((link) => (link.isActive = false));
             menu.isActive = true;
@@ -37,11 +41,12 @@
         leave-to-class="-translate-y-5 opacity-0 duration-300"
         mode="out-in"
       >
-        <div v-if="menu.dropdown && menu.isActive" class="absolute inset-x-8 -ml-2 -z-10">
-          <div
-            class="grid gap-2 bg-white rounded-b-2xl shadow-md p-2 ring-1 ring-slate-200"
-            @mouseleave="menu.isActive = false"
-          >
+        <div
+          v-if="menu.dropdown && menu.isActive"
+          class="absolute inset-x-8 -ml-2 -z-10 p-px rounded-b-2xl"
+          data-radial
+        >
+          <div class="grid gap-2 bg-white rounded-b-[15px] shadow-md p-2" @mouseleave="menu.isActive = false">
             <NuxtLink
               v-for="submenu in menu.dropdown"
               :to="submenu.link"

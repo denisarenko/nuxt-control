@@ -12,23 +12,25 @@
 
         <ControlNavHeader v-if="!navAside" :menu-links />
 
-        <div class="flex bg-white ring-1 ring-slate-200 shadow rounded-3xl overflow-hidden divide-x">
-          <div class="whitespace-nowrap truncate py-2 px-4">
-            {{ accountData.name }}
-          </div>
+        <div class="p-px rounded-full" data-radial>
+          <div class="flex shadow rounded-full overflow-hidden">
+            <div class="whitespace-nowrap truncate py-2 px-4 bg-white mr-px">
+              {{ accountData.name }}
+            </div>
 
-          <button
-            type="button"
-            @click="logout"
-            class="hover:bg-slate-50 hover:text-blue-500 text-slate-400 duration-200 p-3 pr-4 flex shrink-0"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="size-4 m-auto">
-              <path
-                fill="currentColor"
-                d="M272 96a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm-90.7 12.6c-14-3.5-28.7-3.5-42.7 0l-1.8 .5c-13.3 3.3-25.6 9.7-35.9 18.6L56.4 165.8c-10.1 8.6-11.2 23.8-2.6 33.8s23.8 11.2 33.8 2.6l44.5-38.2c4.7-4 10.3-6.9 16.3-8.4l1.8-.5c6.4-1.6 13-1.6 19.4 0l8.6 2.1-32.7 98c-8.5 25.5 2.3 53.4 25.7 66.5l88 49.5L225.1 480.8c-4 12.7 3.1 26.1 15.7 30.1s26.1-3.1 30.1-15.8L307 379.5c5.6-18-2.1-37.5-18.6-46.8l-32.1-18 28.1-84.4 5.6 18.2c7.2 23.5 28.9 39.5 53.5 39.5H352h16.5H392c13.3 0 24-10.7 24-24s-10.7-24-24-24H368.1c1.2-82.9 11.4-134.5 24.1-164c12.4-28.7 22.4-28.1 23.7-28l.1 0 .1 0c1.3-.1 11.3-.7 23.7 28c13.5 31.4 24.2 87.7 24.2 180s-10.7 148.6-24.2 180c-12.4 28.7-22.4 28.1-23.7 28l-.1 0-.1 0c-1.3 .1-11.3 .7-23.7-28c-10.1-23.4-18.6-60.5-22.2-116H352 321.9c8.8 140.7 47.6 192 94.1 192c53 0 96-66.6 96-256S469 0 416 0c-46.2 0-84.8 50.6-93.9 189.1l-5.8-18.9c-5.8-18.7-20.9-33.1-39.9-37.9l-95-23.7zm70.8 67.2l-38.3 115-19-10.7c-3.3-1.9-4.9-5.9-3.7-9.5L225 169l27.1 6.8zM122.5 317.1L103.4 368H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h84.9c16.7 0 31.6-10.3 37.4-25.9l14.1-37.6-4.9-2.8c-14.1-8-25.4-19.3-33-32.6z"
-              />
-            </svg>
-          </button>
+            <button
+              type="button"
+              @click="logout"
+              class="bg-white/95 hover:text-orange-600 text-slate-400 duration-200 p-3 pr-4 flex shrink-0"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="size-4 m-auto">
+                <path
+                  fill="currentColor"
+                  d="M256 56a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm80 0A56 56 0 1 0 224 56a56 56 0 1 0 112 0zM179.4 116.4c-12.7-3.2-26.1-3.2-38.8 0l-1.5 .4c-12.3 3.1-23.7 9-33.3 17.4L53.5 180c-6.7 5.8-7.3 15.9-1.5 22.6s15.9 7.3 22.6 1.5l52.4-45.8c5.7-5 12.6-8.6 20-10.4l1.5-.4c7.6-1.9 15.6-1.9 23.3 0l16.9 4.2L153.2 257.9c-7.3 21.8 2 45.7 22 57l93.3 52.5L224.9 490.7c-2.9 8.3 1.4 17.5 9.8 20.4s17.5-1.4 20.4-9.8L298.6 378c5.2-14.7-.9-30.9-14.5-38.5l-37.5-21.1c.2-.4 .4-.9 .5-1.3l37.2-111.6L298 253.2c5.9 20.6 24.7 34.8 46.2 34.8H400c8.8 0 16-7.2 16-16s-7.2-16-16-16H344.1c-7.1 0-13.4-4.7-15.4-11.6l-20.3-71c-4.7-16.5-17.9-29.2-34.5-33.4l-94.5-23.6zm83 53.7L218.3 302.4 190.9 287c-6.7-3.8-9.8-11.7-7.3-19l36.2-108.6 42.7 10.7zM130 314.1L101.3 384H16c-8.8 0-16 7.2-16 16s7.2 16 16 16h85.3c13 0 24.7-7.8 29.6-19.8l23.3-56.6c-10-6.7-18.2-15.5-24.1-25.4zM458.5 444.2C445.6 480 433.6 480 432 480h0 0c-1.6 0-13.6 0-26.4-35.8c-9.4-26.3-16.8-66.4-19.9-124.2h-32c7.3 140.7 39.7 192 78.4 192c44.2 0 80-66.6 80-256S476.2 0 432 0c-41.6 0-75.8 59-79.6 224h32c1.8-75.3 10.1-125.3 21.2-156.2C418.4 32 430.4 32 432 32l0 0 0 0c1.6 0 13.6 0 26.4 35.8C471.1 102.9 480 162.5 480 256s-8.9 153.1-21.5 188.2z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -54,7 +56,7 @@
       </section>
     </main>
 
-    <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="fixed inset-0 -z-10 overflow-hidden duration-500" :class="hasAuth ? 'opacity-100' : 'opacity-0'">
       <svg xmlns="http://www.w3.org/2000/svg" width="2121" height="1246" fill="none">
         <g filter="url(#blur)">
           <path fill="#DBEEFC" d="M953.49 1031.43 171.59 273 80 288.54l873.49 742.89Z" />
@@ -98,6 +100,22 @@ defineProps({
   hasAuth: Boolean,
   navAside: Boolean
 });
+
+const gradientBorder = (event) => {
+  const cards = document.querySelectorAll('[data-radial]');
+
+  for (let card of cards) {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  }
+};
+
+onMounted(() => document.body.addEventListener('mousemove', gradientBorder));
+onUnmounted(() => document.body.removeEventListener('mousemove', gradientBorder));
 </script>
 
 <style>
@@ -114,6 +132,18 @@ defineProps({
     theme('colors.slate.200') 1px,
     transparent 0,
     transparent 50%
+  );
+}
+
+[data-radial] {
+  --mouse-x: -100%;
+  --mouse-y: -100%;
+
+  background: radial-gradient(
+    200px circle at var(--mouse-x) var(--mouse-y),
+    theme('colors.orange.500'),
+    theme('colors.violet.400'),
+    theme('colors.slate.200')
   );
 }
 </style>
