@@ -1,6 +1,8 @@
 {
   "name": "nuxt-control",
-  "private": true,
+  "version": "1.0.1",
+  "private": false,
+  "description": "Control UI Nuxt Layer",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
