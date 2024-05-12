@@ -23,7 +23,9 @@
       </h2>
 
       <NuxtLink v-if="actionName" :to="actionLink" class="p-px rounded-xl duration-200 hover:shadow h-10" data-radial>
-        <div class="bg-white/95 px-3 md:px-5 py-1 whitespace-nowrap rounded-[11px] h-full flex items-center">
+        <div
+          class="bg-gradient-to-t from-blue-50 to-white/90 px-3 md:px-5 py-1 whitespace-nowrap rounded-[11px] h-full flex items-center"
+        >
           {{ actionName }}
         </div>
       </NuxtLink>
