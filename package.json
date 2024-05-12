@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "nuxt-control",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,6 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "nuxt": "^3.11.2",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "@nuxtjs/tailwindcss": "^6.11.4",
     "@tiptap/extension-image": "^2.2.4",
     "@tiptap/extension-link": "^2.2.4",
     "@tiptap/extension-placeholder": "^2.3.0",
@@ -19,12 +23,6 @@
     "@tiptap/extension-table-row": "^2.2.4",
     "@tiptap/extension-youtube": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",
-    "@tiptap/vue-3": "^2.2.4",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
-  },
-  "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.11.4",
-    "nuxt": "^3.11.2"
+    "@tiptap/vue-3": "^2.2.4"
   }
 }

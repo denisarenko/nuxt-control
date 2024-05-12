@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative rounded-xl ring-1 ring-slate-200 shadow"
-    :class="{ 'bg-zinc-700 text-white': darkBody, classColor }"
+    :class="[darkBody ? 'bg-zinc-700 text-white' : 'bg-white', classColor]"
   >
     <ControlFormEditorToolbar v-if="editor" :editor />
 
@@ -77,7 +77,7 @@ const youtubeLink = ref(false);
 const { classButton, classToolbar, classColor, darkBody, sticky } = defineProps({
   classButton: {
     type: String,
-    default: 'rounded-md bg-white p-2 shadow ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50'
+    default: 'rounded-md bg-white p-1.5 shadow ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50'
   },
   classToolbar: {
     type: String,

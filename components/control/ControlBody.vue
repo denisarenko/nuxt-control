@@ -2,11 +2,11 @@
   <section class="bg-white ring-1 ring-slate-200 shadow rounded-3xl">
     <header
       v-if="title?.length > 0"
-      class="flex gap-4 items-center p-4 border-b top-0 sticky bg-white rounded-t-3xl z-[1]"
+      class="flex gap-4 items-center py-3 px-4 border-b top-0 sticky bg-white rounded-t-3xl z-[1]"
     >
       <button
         v-if="back"
-        class="ring-1 ring-slate-200 rounded-xl size-10 duration-200 hover:shadow hover:bg-slate-50 text-slate-400 hover:text-black"
+        class="ring-1 ring-slate-200 rounded-lg size-8 duration-200 hover:shadow hover:bg-slate-50 text-slate-400 hover:text-black"
         @click="$router.back()"
         title="Back"
       >
@@ -37,7 +37,7 @@
 
     <footer
       v-if="$slots.footer || submit"
-      class="flex gap-6 items-center p-4 border-t bg-white rounded-b-3xl sticky bottom-0"
+      class="flex gap-6 items-center py-3 px-4 border-t bg-white rounded-b-3xl sticky bottom-0"
     >
       <slot name="footer">
         <button type="submit" form="form" class="control-btn mx-auto">

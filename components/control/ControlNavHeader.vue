@@ -1,7 +1,7 @@
 <template>
   <nav
     class="relative max-sm:order-1 mx-auto p-px rounded-full"
-    @mouseleave="menuLinks.forEach((link) => (link.isActive = false))"
+    @mouseleave="navigation.forEach((link) => (link.isActive = false))"
     data-radial
   >
     <div class="max-w-sm lg:max-w-xl rounded-full shadow bg-white overflow-auto flex p-1 gap-1">
@@ -18,14 +18,14 @@
         </svg>
       </NuxtLink>
 
-      <div v-for="menu in menuLinks" :key="menu">
+      <div v-for="menu in navigation" :key="menu">
         <NuxtLink
           :to="menu.link"
           v-if="menu.name.toLowerCase() !== 'home'"
           active-class="ring-1 ring-slate-200 shadow pointer-events-none"
           class="rounded-full block px-4 py-1 hover:ring-1 ring-slate-200 duration-200 cursor-pointer whitespace-nowrap"
           @mouseover="
-            menuLinks.forEach((link) => (link.isActive = false));
+            navigation.forEach((link) => (link.isActive = false));
             menu.isActive = true;
           "
         >
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <template v-for="menu in menuLinks" :key="menu">
+    <template v-for="menu in navigation" :key="menu">
       <Transition
         enter-from-class="-translate-y-5 opacity-0 duration-300"
         enter-to-class="translate-x-0 opacity-100 duration-300"
@@ -64,7 +64,7 @@
 
 <script setup>
 defineProps({
-  menuLinks: {
+  navigation: {
     type: Array,
     required: true
   }

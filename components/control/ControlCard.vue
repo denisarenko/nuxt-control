@@ -1,16 +1,16 @@
 <template>
   <div
     class="w-full shadow shadow-black/5 rounded-xl p-px"
-    :class="{ 'opacity-50 hover:opacity-100 duration-200': hidden }"
+    :class="{ 'opacity-50 hover:opacity-100 duration-200': record?.hidden || hidden }"
     data-radial
   >
     <div class="rounded-[11px] flex flex-col h-full">
-      <div v-if="image" class="border-b p-3 flex bg-white control-pattern-lines rounded-t-[11px]">
-        <img :src="image" class="h-20 rounded-lg" :alt="title" />
+      <div v-if="record?.image || image" class="border-b p-3 flex bg-white control-pattern-lines rounded-t-[11px]">
+        <img :src="record?.image || image" class="h-20 rounded-lg" :alt="record?.title || record?.name || title" />
 
         <NuxtLink
-          v-if="open?.length > 0"
-          :to="open"
+          v-if="routeOpen"
+          :to="routeOpen"
           target="_blank"
           class="text-slate-400 hover:text-orange-400 duration-200 ml-auto mb-auto"
         >
@@ -23,14 +23,41 @@
         </NuxtLink>
       </div>
 
-      <div class="border-b p-3 font-medium bg-white truncate max-w-full" :class="{ 'rounded-t-[11px]': !image }" :title>
-        {{ title }}
+      <div
+        class="border-b p-3 font-medium bg-white truncate max-w-full"
+        :class="{ 'rounded-t-[11px]': !record?.image && !image }"
+        :title="record?.title || record?.name || title"
+      >
+        {{ record?.title || record?.name || title }}
       </div>
 
-      <div class="control-details p-3 flex flex-wrap bg-white gap-3 grow items-start">
+      <div class="control-details p-3 flex flex-wrap bg-white gap-2 grow items-start text-sm">
+        <div v-if="record?.id">#{{ record.id }}</div>
+
+        <div v-if="date">
+          {{ useDateFormat({ date, format: 'short' }) }}
+        </div>
+
         <slot />
 
-        <div v-if="hidden" class="bg-orange-50 flex items-center gap-1 text-orange-700 shadow ring-orange-200">
+        <div
+          v-if="record?.featured || record?.popular"
+          class="!bg-blue-50 flex items-center gap-1 text-blue-700 shadow shadow-current !ring-blue-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="size-3.5">
+            <path
+              fill="currentColor"
+              d="M239.7 109.4c6.1 7.7 15.5 12.1 25.3 12s19.1-4.7 25.1-12.5c8.4-11 16.9-21.7 25.6-31.1c27.8 28.8 52.1 65.5 69.8 101.1c19.6 39.4 30.5 75.7 30.5 97.6C416 388.3 328.8 480 224 480C118 480 32 388.4 32 276.5c0-29.9 14.4-70.8 40.9-115.4c24.7-41.6 59.3-85.3 100.2-124.7c23.5 22.7 45.7 47 66.6 73zm25-20c-6.9-8.6-13.9-17-21-25.2C225.6 43.6 206.7 24 187 5.5c-7.8-7.3-19.9-7.3-27.7-.1c-46.5 43.2-86 92.3-113.9 139.3C17.8 191.2 0 238.1 0 276.5C0 404.1 98.4 512 224 512c124.2 0 224-107.8 224-235.5c0-29.3-13.5-71.1-33.8-111.9c-20.7-41.4-49.9-85-84.5-118c-7.8-7.5-20.1-7.5-28-.1c-5.7 5.4-11.2 11.3-16.5 17.4c-7.3 8.4-14.2 17.2-20.5 25.5zM128 306.8c0-23.7 13-46.3 47.1-89.1c16.8 21.3 46.2 58.7 62.6 79.6c12.5 15.9 36.3 16.3 49.4 1l23.4-27.2c17.8 38.8 9.4 86.6-24.9 110.7C267.1 394 247.7 400 225.7 400c-28.2 0-52.6-9-69.8-24.7c-17-15.5-28-38.4-28-68.5zm72-109.2c-12.7-16.1-37-16.2-49.8-.1C116.8 239.4 96 270.3 96 306.8c0 38.5 14.3 70.2 38.4 92.1c23.9 21.8 56.4 33.1 91.3 33.1c28.5 0 54.1-8 77.7-23.7l0 0 .3-.2c51.2-35.7 59.1-104.2 33.9-154.6c-10.7-21.4-37.3-19.7-49.9-5.1l-24.9 29 0 0c-16.5-21-46-58.5-62.8-79.8z"
+            />
+          </svg>
+
+          Top
+        </div>
+
+        <div
+          v-if="record?.hidden || hidden"
+          class="!bg-orange-50 flex items-center gap-1 text-orange-700 shadow shadow-current !ring-orange-200"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="size-4">
             <path
               fill="currentColor"
@@ -43,11 +70,11 @@
       </div>
 
       <div
-        v-if="$slots['actions'] || actionEdit || actionDelete"
+        v-if="$slots['actions'] || routeEdit || routeDelete"
         class="mt-px flex *:flex-1 *:p-2 *:bg-white/95 *:duration-200 text-center text-sm gap-px rounded-b-[11px] overflow-hidden"
       >
         <slot name="actions">
-          <NuxtLink :to="actionEdit" class="flex gap-3 items-center justify-center">
+          <NuxtLink :to="routeEdit" class="flex gap-3 items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="size-4">
               <path
                 d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"
@@ -59,7 +86,7 @@
 
           <button
             type="button"
-            @click="actionDelete"
+            @click="removeRecord"
             class="hover:bg-red-50/95 hover:text-red-500 flex gap-3 items-center justify-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="size-4">
@@ -78,31 +105,54 @@
 </template>
 
 <script setup>
-defineProps({
+import { useToast } from '~/composables/toast.js';
+import { useDateFormat } from '~/utils/date-format.js';
+
+const props = defineProps({
+  record: {
+    type: Object,
+    default: null
+  },
   hidden: Boolean,
   title: {
     type: String,
-    required: true,
     default: 'No Title'
   },
   image: {
     type: String
   },
-  open: {
+  routeOpen: {
     type: String,
     default: null
   },
-  actionEdit: {
-    type: String
+  routeEdit: {
+    type: String,
+    default: null
   },
-  actionDelete: {
-    type: Function
+  routeDelete: {
+    type: String,
+    default: null
   }
 });
+
+const date = ref(props.record?.date || props.record?.createdAt || props.record?.created_at);
+
+const removeRecord = async () => {
+  if (confirm('Are you sure want to delete?')) {
+    if (props.record?.image || props.image) {
+      await $fetch(`/api/media/${props.record?.image || props.image}`, { method: 'DELETE' });
+    }
+
+    $fetch(props.routeDelete, { method: 'DELETE' }).then(() => {
+      useToast('success', 'Record has been deleted');
+      refreshNuxtData();
+    });
+  }
+};
 </script>
 
 <style>
 .control-details > div {
-  @apply bg-white shadow ring-1 ring-slate-200 rounded-md px-2 py-0.5 text-sm;
+  @apply bg-white shadow ring-1 ring-slate-200 rounded-md px-2 py-0.5;
 }
 </style>

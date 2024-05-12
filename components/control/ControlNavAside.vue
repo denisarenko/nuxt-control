@@ -37,7 +37,7 @@
       mode="out-in"
     >
       <div v-if="navActive" class="grid gap-2">
-        <template v-for="menu in menuLinks" :key="menu">
+        <template v-for="menu in navigation" :key="menu">
           <NuxtLink
             v-if="!menu.divide && menu.link !== null"
             :to="menu.link"
@@ -68,7 +68,7 @@
 
 <script setup>
 defineProps({
-  menuLinks: {
+  navigation: {
     type: Array,
     required: true
   }
