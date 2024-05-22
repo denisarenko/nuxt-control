@@ -5,6 +5,16 @@
     <button
       v-if="linkHref && linkHref !== editor.getAttributes('link').href"
       type="button"
+      class="leading-none text-xs"
+      :class="[classButton, { '!ring-blue-500 text-blue-800': linkNoFollow }]"
+      @click="linkNoFollow = !linkNoFollow"
+    >
+      Nofollow
+    </button>
+
+    <button
+      v-if="linkHref && linkHref !== editor.getAttributes('link').href"
+      type="button"
       :class="classButton"
       @click="setHref"
     >
@@ -30,8 +40,15 @@ const { setLink } = inject('actions');
 
 const linkHref = ref();
 
+const linkNoFollow = ref(false);
+
 const setHref = () => {
-  editor.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value }).run();
+  editor
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .setLink({ href: linkHref.value, rel: linkNoFollow.value ? 'noopener noreferrer nofollow' : null })
+    .run();
 
   setLink.value = false;
 };

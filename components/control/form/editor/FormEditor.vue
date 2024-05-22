@@ -15,7 +15,7 @@
       >
         <textarea
           v-if="editor && editSource"
-          class="font-mono absolute inset-0 whitespace-pre-line rounded-b-xl bg-slate-100 p-4 text-sm outline-none"
+          class="font-mono absolute inset-0 whitespace-pre-line text-black rounded-b-xl bg-slate-100 p-4 text-sm outline-none"
           @input="editor.commands.setContent($event.target.value, true)"
           v-html="editor.getHTML()"
         />
@@ -55,6 +55,7 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import Youtube from '@tiptap/extension-youtube';
+import TextAlign from '@tiptap/extension-text-align';
 
 const TextStyles = Extension.create({
   addGlobalAttributes() {
@@ -77,7 +78,7 @@ const youtubeLink = ref(false);
 const { classButton, classToolbar, classColor, darkBody, sticky } = defineProps({
   classButton: {
     type: String,
-    default: 'rounded-md bg-white p-1.5 shadow ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50'
+    default: 'rounded-md bg-white p-1.5 shadow ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50 duration-200'
   },
   classToolbar: {
     type: String,
@@ -107,8 +108,12 @@ const editor = useEditor({
   content: model.value,
   extensions: [
     StarterKit.configure(),
+    TextAlign.configure({ types: ['heading', 'paragraph'] }),
     Placeholder.configure({ placeholder: 'Type Something' }),
-    Link.configure({ openOnClick: false }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: { rel: null }
+    }),
     Table.configure({ resizable: true }),
     TableRow,
     TableHeader,

@@ -4,7 +4,7 @@
       <button
         v-if="!tool.divide"
         type="button"
-        :class="[classButton, { 'ring-blue-500': tool.type && editor.isActive(tool.type, tool.attr) }]"
+        :class="[classButton, { '!ring-blue-500': tool.type && editor.isActive(tool.type, tool.attr) }]"
         :disabled="editSource && tool.type !== 'source'"
         @click="tool.action"
       >
@@ -77,6 +77,34 @@ const toolbar = ref([
     icon: 'strikethrough',
     title: 'Strike',
     action: () => editor.chain().focus().toggleStrike().run()
+  },
+  {
+    icon: 'format-clear',
+    title: 'Clear Format',
+    action: () => editor.chain().focus().unsetAllMarks().run()
+  },
+
+  {
+    divide: true
+  },
+
+  {
+    type: { textAlign: 'left' },
+    icon: 'align-left',
+    title: 'Align Left',
+    action: () => editor.chain().focus().setTextAlign('left').run()
+  },
+  {
+    type: { textAlign: 'center' },
+    icon: 'align-center',
+    title: 'Align Center',
+    action: () => editor.chain().focus().setTextAlign('center').run()
+  },
+  {
+    type: { textAlign: 'right' },
+    icon: 'align-right',
+    title: 'Align Right',
+    action: () => editor.chain().focus().setTextAlign('right').run()
   },
 
   {
@@ -154,16 +182,10 @@ const toolbar = ref([
   },
 
   {
-    icon: 'format-clear',
-    title: 'Clear Format',
-    action: () => editor.chain().focus().unsetAllMarks().run()
-  },
-  {
     icon: 'separator',
     title: 'Divide',
     action: () => editor.chain().focus().setHorizontalRule().run()
   },
-
   {
     icon: 'source-code',
     type: 'source',
