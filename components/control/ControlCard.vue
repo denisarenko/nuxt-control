@@ -6,13 +6,17 @@
   >
     <div class="rounded-[11px] flex flex-col h-full">
       <div v-if="record?.image || image" class="border-b p-3 flex bg-white control-pattern-lines rounded-t-[11px]">
-        <img :src="record?.image || image" class="h-20 rounded-lg" :alt="record?.title || record?.name || title" />
+        <img
+          :src="record?.image || image"
+          class="h-20 max-w-60 object-contain rounded-lg"
+          :alt="record?.title || record?.name || title"
+        />
 
         <NuxtLink
           v-if="routeOpen"
           :to="routeOpen"
           target="_blank"
-          class="text-slate-400 hover:text-orange-400 duration-200 ml-auto mb-auto"
+          class="text-slate-400 shrink-0 hover:text-orange-400 duration-200 ml-auto mb-auto"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="size-5">
             <path

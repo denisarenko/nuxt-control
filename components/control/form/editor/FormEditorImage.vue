@@ -111,7 +111,11 @@ watch([uploadImage], () => {
 
       body.append('image', file);
 
-      $fetch('/api/media/editor', { method: 'POST', body }).then((response) => {
+      $fetch('/api/media/editor', {
+        method: 'POST',
+        params: { width: 1200 },
+        body
+      }).then((response) => {
         editor.commands.setImage({ src: response.url });
       });
     };
