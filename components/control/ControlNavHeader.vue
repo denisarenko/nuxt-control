@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="relative max-sm:order-1 mx-auto p-px rounded-full"
+    class="relative max-sm:order-1 mx-auto p-px rounded-full min-w-0"
     @mouseleave="navigation.forEach((link) => (link.isActive = false))"
     data-radial
   >

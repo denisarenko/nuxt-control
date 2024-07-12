@@ -134,6 +134,11 @@ const editor = useEditor({
     }),
     TextStyles
   ],
+  editorProps: {
+    transformPastedHTML(html) {
+      return html.replace(/style='[^']*'|style="[^"]*"/g, '');
+    }
+  },
   onUpdate: ({ editor }) => (model.value = editor.getHTML())
 });
 

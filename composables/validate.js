@@ -1,5 +1,5 @@
 export const useValidate = (path = {}, message = {}) => {
-  const validate = useState('validate');
+  const validate = useState('control-validate');
 
   validate.value = {
     [path]: message
