@@ -13,7 +13,7 @@ export const useAuth = () => {
   if (token.value) {
     const tokenDecoded = JSON.parse(atob(token.value.split('.')[1]));
 
-    account.value.hasAuth = tokenDecoded.status;
+    account.value.hasAuth = true;
     account.value.data = tokenDecoded;
   }
 

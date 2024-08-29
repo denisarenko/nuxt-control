@@ -116,7 +116,7 @@ watch([uploadImage], () => {
         params: { width: 1200 },
         body
       }).then((response) => {
-        editor.commands.setImage({ src: response.url });
+        editor.commands.setImage({ src: response[0].url });
       });
     };
 

@@ -56,6 +56,8 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import Youtube from '@tiptap/extension-youtube';
 import TextAlign from '@tiptap/extension-text-align';
+import { ListItem } from '@tiptap/extension-list-item';
+// import ListItem from '@tiptap/extension-list-item';
 
 const TextStyles = Extension.create({
   addGlobalAttributes() {
@@ -107,7 +109,8 @@ const model = defineModel({ type: String });
 const editor = useEditor({
   content: model.value,
   extensions: [
-    StarterKit.configure(),
+    StarterKit.configure({ listItem: false }),
+    ListItem.extend({ content: '(paragraph | heading | block)+' }),
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
     Placeholder.configure({ placeholder: 'Type Something' }),
     Link.configure({

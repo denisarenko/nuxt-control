@@ -11,12 +11,22 @@
           class="h-20 max-w-60 object-contain rounded-lg"
           :alt="record?.title || record?.name || title"
         />
+      </div>
+
+      <div
+        class="border-b p-3 font-medium bg-white max-w-full flex items-center justify-between gap-4"
+        :class="{ 'rounded-t-[11px]': !record?.image && !image }"
+        :title="record?.title || record?.name || title"
+      >
+        <div class="truncate">
+          {{ record?.title || record?.name || title }}
+        </div>
 
         <NuxtLink
           v-if="routeOpen"
           :to="routeOpen"
           target="_blank"
-          class="text-slate-400 shrink-0 hover:text-orange-400 duration-200 ml-auto mb-auto"
+          class="text-slate-400 shrink-0 hover:text-orange-400 duration-200"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="size-5">
             <path
@@ -25,14 +35,6 @@
             />
           </svg>
         </NuxtLink>
-      </div>
-
-      <div
-        class="border-b p-3 font-medium bg-white truncate max-w-full"
-        :class="{ 'rounded-t-[11px]': !record?.image && !image }"
-        :title="record?.title || record?.name || title"
-      >
-        {{ record?.title || record?.name || title }}
       </div>
 
       <div class="control-details p-3 flex flex-wrap bg-white gap-2 grow items-start text-sm">

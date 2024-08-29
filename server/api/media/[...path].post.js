@@ -10,15 +10,12 @@ export default defineEventHandler(async (event) => {
   const path = getRouterParam(event, 'path');
   const multipartData = await readMultipartFormData(event);
 
-  const media = multipartData[0];
+  const results = [];
 
-  // const isPdf = media.type === 'application/pdf';
-  const isImage = media.type.includes('image');
+  for (const media of multipartData) {
+    const isImage = media.type.includes('image');
 
-  const fileName = media.filename.replace(/[^\w\s\-.]/g, '').replace(/\s+/g, '-');
-
-  if (isImage) {
-    fileName.replace(/\.[^/.]+$/, '');
+    let fileName = media.filename.replace(/[^\w\s\-.]/g, '').replace(/\s+/g, '-');
 
     const today = new Date();
     const date = today.toISOString().split('T')[0].split('-').join('');
@@ -27,25 +24,31 @@ export default defineEventHandler(async (event) => {
 
     const datetime = date + seconds + minutes;
 
-    const compress = await sharp(media.data)
-      .webp({ quality: 80 })
-      .resize(Number(width) || null, Number(height) || null, { fit })
-      .toBuffer();
+    if (isImage) {
+      fileName.replace(/\.[^/.]+$/, '');
 
-    await useStorage('fs').setItemRaw(`${path}:${datetime}_${fileName}.webp`, compress);
+      const compress = await sharp(media.data)
+        .webp({ quality: 80 })
+        .resize(Number(width) || null, Number(height) || null, { fit })
+        .toBuffer();
 
-    return {
-      fileName,
-      uploaded: true,
-      url: join('/storage', path, `${datetime}_${fileName}.webp`)
-    };
+      await useStorage('fs').setItemRaw(`${path}:${datetime}_${fileName}.webp`, compress);
+
+      results.push({
+        fileName,
+        uploaded: true,
+        url: join('/storage', path, `${datetime}_${fileName}.webp`)
+      });
+    } else {
+      await useStorage('fs').setItemRaw(`${path}:${datetime}_${fileName}`, media.data);
+
+      results.push({
+        fileName,
+        uploaded: true,
+        url: join('/storage', path, `${datetime}_${fileName}`)
+      });
+    }
   }
 
-  await useStorage('fs').setItemRaw(`${path}:${fileName}`, media.data);
-
-  return {
-    fileName,
-    uploaded: true,
-    url: join('/storage', path, fileName)
-  };
+  return results;
 });
