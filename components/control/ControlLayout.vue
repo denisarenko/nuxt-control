@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="bg-slate-50 min-h-dvh control-pattern-dots text-slate-800 isolate">
+    <div class="bg-slate-50 min-h-dvh control-pattern-dots text-slate-800 isolate text-sm">
       <div v-if="account?.hasAuth" class="max-w-7xl mx-auto px-4">
         <header class="relative py-8 flex flex-wrap justify-between items-center gap-4 z-10">
           <div class="flex gap-5 items-center shrink-0">
@@ -14,8 +14,8 @@
           <ControlNavHeader v-if="!navAside" :navigation />
 
           <div class="p-px rounded-full" data-radial>
-            <div class="flex shadow rounded-full overflow-hidden">
-              <div class="whitespace-nowrap truncate py-2 px-4 bg-white mr-px">
+            <div class="flex shadow rounded-full bg-white items-center overflow-hidden">
+              <div class="truncate py-2 pl-4 cursor-default">
                 {{ account?.data?.name }}
               </div>
 

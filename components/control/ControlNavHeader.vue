@@ -4,7 +4,7 @@
     @mouseleave="navigation.forEach((link) => (link.isActive = false))"
     data-radial
   >
-    <div class="max-w-sm lg:max-w-xl rounded-full shadow bg-white overflow-auto flex p-1 gap-1">
+    <div class="max-w-sm lg:max-w-none rounded-full shadow bg-white overflow-auto flex p-1 gap-1">
       <NuxtLink
         to="/control"
         active-class="pointer-events-none"
@@ -23,7 +23,7 @@
           :to="menu.link"
           v-if="menu.name.toLowerCase() !== 'home'"
           active-class="ring-1 ring-slate-200 shadow pointer-events-none"
-          class="rounded-full block px-4 py-1 hover:ring-1 ring-slate-200 duration-200 cursor-pointer whitespace-nowrap"
+          class="rounded-full block px-4 py-1.5 hover:ring-1 ring-slate-200 duration-200 cursor-pointer whitespace-nowrap"
           @mouseover="
             navigation.forEach((link) => (link.isActive = false));
             menu.isActive = true;

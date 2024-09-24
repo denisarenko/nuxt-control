@@ -5,9 +5,9 @@
     data-radial
   >
     <div class="rounded-[11px] flex flex-col h-full">
-      <div v-if="record?.image || image" class="border-b p-3 flex bg-white control-pattern-lines rounded-t-[11px]">
+      <div v-if="image || record?.image" class="border-b p-3 flex bg-white control-pattern-lines rounded-t-[11px]">
         <img
-          :src="record?.image || image"
+          :src="image || record?.image"
           class="h-20 max-w-60 object-contain rounded-lg"
           :alt="record?.title || record?.name || title"
         />
@@ -117,7 +117,7 @@ import { useDateFormat } from '~/utils/date-format.js';
 const props = defineProps({
   record: {
     type: Object,
-    default: null
+    default: undefined
   },
   hidden: Boolean,
   title: {
@@ -125,19 +125,20 @@ const props = defineProps({
     default: 'No Title'
   },
   image: {
-    type: String
+    type: String,
+    default: undefined
   },
   routeOpen: {
     type: String,
-    default: null
+    default: undefined
   },
   routeEdit: {
     type: String,
-    default: null
+    default: undefined
   },
   routeDelete: {
     type: String,
-    default: null
+    default: undefined
   }
 });
 

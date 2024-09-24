@@ -14,7 +14,7 @@
           :value="category[keyValue] || category"
         />
 
-        <span class="relative block px-2 peer-checked:text-blue-700 duration-200">
+        <span class="relative block px-2.5 py-0.5 peer-checked:text-blue-700 duration-200">
           {{ category[keyName] || category }}
         </span>
       </label>

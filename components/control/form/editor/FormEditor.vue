@@ -57,7 +57,6 @@ import TableRow from '@tiptap/extension-table-row';
 import Youtube from '@tiptap/extension-youtube';
 import TextAlign from '@tiptap/extension-text-align';
 import { ListItem } from '@tiptap/extension-list-item';
-// import ListItem from '@tiptap/extension-list-item';
 
 const TextStyles = Extension.create({
   addGlobalAttributes() {
@@ -117,7 +116,11 @@ const editor = useEditor({
       openOnClick: false,
       HTMLAttributes: { rel: null }
     }),
-    Table.configure({ resizable: true }),
+    Table.extend({
+      renderHTML({ HTMLAttributes }) {
+        return ['div', { class: 'w-full overflow-auto' }, ['table', HTMLAttributes, ['tbody', 0]]];
+      }
+    }).configure({ resizable: true }),
     TableRow,
     TableHeader,
     TableCell,
