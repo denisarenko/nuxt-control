@@ -20,7 +20,7 @@
     >
       <div v-if="!pending">
         <div class="text-xl md:text-2xl min-h-8 delay-100 mb-4">
-          {{ quote?.content || 'Nothing to say' }}
+          {{ quote?.quote || 'Nothing to say' }}
         </div>
 
         <div class="text-slate-500 mx-auto delay-200">
@@ -34,5 +34,5 @@
 </template>
 
 <script setup>
-const { data: quote, pending } = useLazyFetch('https://api.quotable.io/random?size=2');
+const { data: quote, pending } = useLazyFetch('https://dummyjson.com/quotes/random');
 </script>

@@ -1,12 +1,11 @@
 <template>
   <div class="relative">
     <ControlFormInput
-      v-model="selectedDate"
+      v-model="formatDateRange"
       v-bind="$attrs"
       autocomplete="off"
       @click="showDatepicker = true"
-      @click.once="initDatepicker"
-      @focusout="showDatepicker = false"
+      readonly
     />
 
     <Transition
@@ -15,57 +14,79 @@
       leave-to-class="opacity-0 scale-95"
     >
       <div
-        v-show="showDatepicker"
-        class="absolute z-[1] mt-2 rounded-xl bg-white ring-1 ring-slate-200 shadow-lg duration-200"
+        v-if="showDatepicker"
+        class="absolute z-[1] mt-2 rounded-lg bg-white ring-1 ring-slate-200 shadow-lg duration-200"
         @mouseleave="showDatepicker = false"
       >
-        <div class="flex items-center justify-between p-2">
-          <button type="button" @click.stop="toggleMonth(1)">
-            <svg width="16" height="16" viewBox="0 0 10 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M9 1L1 9.5L9 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+        <div class="space-y-2 p-2 text-center">
+          <div class="flex justify-between gap-2">
+            <button type="button" @click="prevMonth" class="px-2 py-1">
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="size-5 text-slate-400 duration-200">
+                <path fill="none" stroke-width="3" stroke="currentColor" d="m20 6-10 10 10 10" />
+              </svg>
+            </button>
 
-          <span>{{ currentMonth }}</span>
+            <div class="flex w-full justify-center gap-2 font-medium">
+              <select
+                v-model="currentMonth"
+                @change="updateDate"
+                class="cursor-pointer appearance-none bg-transparent text-center outline-none"
+              >
+                <option v-for="(month, index) in months" :key="index" :value="index">
+                  {{ month }}
+                </option>
+              </select>
 
-          <button type="button" @click="toggleMonth(-1)">
-            <svg width="16" height="16" viewBox="0 0 10 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1 1L9 9.5L1 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+              <select
+                v-model="currentYear"
+                @change="updateDate"
+                class="cursor-pointer appearance-none bg-transparent text-center outline-none"
+              >
+                <option v-for="year in years" :key="year" :value="year">
+                  {{ year }}
+                </option>
+              </select>
+            </div>
 
-        <div class="grid grid-cols-7 gap-1 border-b border-t p-2 text-center text-sm font-semibold">
-          <div v-for="day in daysOfWeek" :key="day">{{ day }}</div>
-        </div>
+            <button type="button" @click="nextMonth" class="px-2 py-1">
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="size-5 text-slate-400 duration-200">
+                <path fill="none" stroke-width="3" stroke="currentColor" d="m12 26 10-10-10-10" />
+              </svg>
+            </button>
+          </div>
 
-        <div class="p-2">
-          <div v-for="week in calendar" :key="week" class="grid grid-cols-7 gap-1 py-1 text-center">
+          <div class="grid min-w-max grid-cols-7 overflow-hidden rounded-md ring-1 ring-slate-200">
+            <div v-for="day in days" :key="day" class="p-1 text-xs font-medium uppercase text-slate-400">
+              {{ day }}
+            </div>
+
             <button
-              v-for="date in week"
-              :key="date.id"
+              v-for="(date, index) in dates"
+              :key="index"
               type="button"
-              class="size-8 rounded-md hover:bg-slate-100"
-              :class="{
-                'bg-blue-500 hover:bg-blue-600 text-white': isDateSelected(date),
-                'pointer-events-none': !date.date
-              }"
+              class="bg-white p-1 ring-1 ring-slate-200 disabled:cursor-not-allowed disabled:text-slate-400"
+              :disabled="isDisabled(date)"
               @click="selectDate(date)"
             >
-              {{ date.date }}
+              <span
+                :class="[
+                  'mx-auto grid size-8 place-items-center rounded-full duration-200',
+                  { 'text-slate-400': isOutside(date) },
+                  { 'bg-blue-50 text-blue-600': inRange(date) },
+                  isSelected(date) ? 'bg-blue-500 text-white hover:bg-blue-400' : 'hover:bg-blue-50 hover:text-blue-500'
+                ]"
+              >
+                {{ date.getDate() }}
+              </span>
             </button>
+          </div>
+
+          <div v-if="range" class="grid grid-cols-2 gap-2 rounded-md">
+            <button type="button" class="btn btn-sm btn-default" @click="setPreset('today')">Today</button>
+            <button type="button" class="btn btn-sm btn-default" @click="setPreset('this-month')">This Month</button>
+
+            <button type="button" class="btn btn-sm btn-default" @click="setPreset('last-week')">Last Week</button>
+            <button type="button" class="btn btn-sm btn-default" @click="setPreset('last-month')">Last Month</button>
           </div>
         </div>
       </div>
@@ -73,75 +94,171 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    range?: boolean;
+    disabledDates?: Date[];
+  }>(),
+  {
+    range: false,
+    disabledDates: () => []
+  }
+);
+
 defineOptions({ inheritAttrs: false });
-
-const selectedDate = defineModel({ type: String });
 const showDatepicker = ref(false);
-const currentMonth = ref('');
-const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const calendar = ref([]);
 
-const initDatepicker = () => {
-  const now = new Date();
+const model = defineModel<string | Date | Date[]>();
 
-  if (selectedDate.value === '') selectedDate.value = now.toISOString().substring(0, 10);
+const selectedDates = ref<Date[]>(props.range ? (model.value as Date[]) : [model.value as Date]);
 
-  currentMonth.value = now.toLocaleString('default', {
-    month: 'long',
-    year: 'numeric'
-  });
+const days: string[] = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
-  generateDatepicker(now.getFullYear(), now.getMonth());
-};
+const months: string[] = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
 
-const generateDatepicker = (year, month) => {
-  const firstDayOfMonth = new Date(year, month, 0);
-  const lastDayOfMonth = new Date(year, month + 1, 0);
-  const firstDayOfWeek = firstDayOfMonth.getDay();
-  const daysInMonth = lastDayOfMonth.getDate();
-  const calendarValue = [];
+const currentDate = ref(new Date());
+const currentMonth = ref(currentDate.value.getMonth());
+const currentYear = ref(currentDate.value.getFullYear());
 
-  let week = [];
+const years = computed(() => {
+  const currentYear = new Date().getFullYear();
+  return Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
+});
 
-  for (let dayWeek = 0; dayWeek < firstDayOfWeek; dayWeek++) {
-    week.push({ id: dayWeek, date: '' });
+const dates = computed(() => {
+  const firstDay = new Date(currentYear.value, currentMonth.value, 1);
+  const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
+  const days: Date[] = [];
+
+  let startDay = firstDay.getDay() - 1;
+  if (startDay === -1) startDay = 6;
+
+  const totalCells = Math.ceil((lastDay.getDate() + startDay) / 7) * 7;
+
+  for (let i = 1; i <= totalCells; i++) {
+    const date = new Date(currentYear.value, currentMonth.value, i - startDay);
+    days.push(date);
   }
 
-  for (let dayMonth = 1; dayMonth <= daysInMonth; dayMonth++) {
-    week.push({ id: dayMonth, date: dayMonth });
+  return days;
+});
 
-    if ((firstDayOfWeek + dayMonth - 1) % 7 === 6 || dayMonth === daysInMonth) {
-      calendarValue.push(week);
-      week = [];
+const formatDateRange = computed(() => {
+  if (props.range) {
+    return selectedDates.value.map((date) => formatDate({ date })).join(' - ');
+  }
+
+  if (selectedDates.value[0]) {
+    return formatDate({ date: selectedDates.value[0] as Date });
+  }
+
+  return '';
+});
+
+const prevMonth = () => {
+  if (currentMonth.value === 0) {
+    currentMonth.value = 11;
+    currentYear.value--;
+  } else {
+    currentMonth.value--;
+  }
+};
+
+const nextMonth = () => {
+  if (currentMonth.value === 11) {
+    currentMonth.value = 0;
+    currentYear.value++;
+  } else {
+    currentMonth.value++;
+  }
+};
+
+const updateDate = () => {
+  currentDate.value = new Date(currentYear.value, currentMonth.value, 1);
+};
+
+const selectDate = (date: Date) => {
+  if (isDisabled(date)) return;
+
+  if (props.range) {
+    if (selectedDates.value.length === 2) {
+      selectedDates.value = [date];
+    } else {
+      selectedDates.value.push(date);
+      selectedDates.value.sort((a, b) => a.getTime() - b.getTime());
     }
+  } else {
+    selectedDates.value = [date];
   }
 
-  calendar.value = calendarValue;
+  currentMonth.value = date.getMonth();
+  currentYear.value = date.getFullYear();
+
+  model.value = props.range ? selectedDates.value : selectedDates.value[0];
 };
 
-const toggleMonth = (direction) => {
-  const currentDate = new Date(selectedDate.value);
-  currentDate.setMonth(currentDate.getMonth() - direction);
-  selectedDate.value = currentDate.toISOString().substring(0, 10);
-  currentMonth.value = currentDate.toLocaleString('default', {
-    month: 'long',
-    year: 'numeric'
-  });
-  generateDatepicker(currentDate.getFullYear(), currentDate.getMonth());
-};
-
-const selectDate = (date) => {
-  if (date.date !== '') {
-    const selectedDateValue = new Date(selectedDate.value);
-    selectedDateValue.setDate(date.date);
-    selectedDate.value = selectedDateValue.toISOString().substring(0, 10);
-    showDatepicker.value = false;
+const isSelected = (date: Date): boolean => {
+  if (selectedDates.value[0]) {
+    return selectedDates.value.some((d) => {
+      return formatDate({ date: d }) === formatDate({ date });
+    });
   }
+
+  return false;
 };
 
-const isDateSelected = (date) => {
-  if (!selectedDate.value) return false;
-  return new Date(selectedDate.value).getDate() === date.date;
+const inRange = (date: Date): boolean => {
+  if (props.range && selectedDates.value.length === 2 && selectedDates.value[0] && selectedDates.value[1]) {
+    return date > selectedDates.value[0] && date < selectedDates.value[1];
+  }
+
+  return false;
+};
+
+const isOutside = (date: Date): boolean => date.getMonth() !== currentMonth.value;
+
+const isDisabled = (date: Date): boolean => {
+  return props.disabledDates?.some((d) => new Date(d).toDateString() === date.toDateString());
+};
+
+const setPreset = (type: 'today' | 'yesterday' | 'last-week' | 'this-month' | 'last-month') => {
+  const today = new Date();
+
+  switch (type) {
+    case 'today':
+      selectDate(today);
+      selectDate(today);
+      break;
+    case 'yesterday':
+      selectDate(new Date(today.setDate(today.getDate() - 1)));
+      selectDate(new Date(today.setDate(today.getDate() - 1)));
+      break;
+    case 'last-week':
+      selectDate(new Date(today.setDate(today.getDate() - 7)));
+      selectDate(new Date());
+      break;
+    case 'this-month':
+      selectDate(new Date(today.getFullYear(), today.getMonth(), 1));
+      selectDate(new Date(today.getFullYear(), today.getMonth() + 1, 0));
+      break;
+    case 'last-month':
+      selectDate(new Date(today.getFullYear(), today.getMonth() - 1, 1));
+      selectDate(new Date(today.getFullYear(), today.getMonth(), 0));
+      break;
+  }
 };
 </script>

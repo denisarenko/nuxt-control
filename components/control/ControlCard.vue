@@ -41,7 +41,7 @@
         <div v-if="record?.id">#{{ record.id }}</div>
 
         <div v-if="date">
-          {{ useDateFormat({ date, format: 'short' }) }}
+          {{ formatDate({ date }) }}
         </div>
 
         <slot />
@@ -112,7 +112,7 @@
 
 <script setup>
 import { useToast } from '~/composables/toast.js';
-import { useDateFormat } from '~/utils/date-format.js';
+import { formatDate } from '~/utils/format.ts';
 
 const props = defineProps({
   record: {
