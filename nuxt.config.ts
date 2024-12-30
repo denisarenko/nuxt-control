@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
+  future: { compatibilityVersion: 4 },
   nitro: {
     storage: {
       fs: {

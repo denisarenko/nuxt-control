@@ -146,6 +146,8 @@ onUnmounted(() => document.body.removeEventListener('mousemove', gradientBorder)
 </script>
 
 <style>
+@import "tailwindcss/theme" theme(reference);
+
 .control-pattern-dots {
   background-image: radial-gradient(circle at 2px 2px, theme('colors.slate.200') 1px, transparent 0);
   background-size: 16px 16px;

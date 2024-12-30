@@ -2,7 +2,7 @@
   <section class="bg-white ring-1 ring-slate-200 shadow rounded-3xl">
     <header
       v-if="title?.length > 0"
-      class="flex gap-4 items-center py-3 px-4 border-b top-0 sticky bg-white rounded-t-3xl z-[1]"
+      class="flex gap-4 items-center py-3 px-4 border-b border-slate-200 top-0 sticky bg-white rounded-t-3xl z-[1]"
     >
       <button
         v-if="back"
@@ -37,7 +37,7 @@
 
     <footer
       v-if="$slots.footer || submit"
-      class="flex gap-6 items-center py-3 px-4 border-t bg-white rounded-b-3xl sticky bottom-0"
+      class="flex gap-6 items-center py-3 px-4 border-t border-slate-200 bg-white rounded-b-3xl sticky bottom-0"
     >
       <slot name="footer">
         <button type="submit" form="form" class="control-btn mx-auto">
@@ -71,6 +71,8 @@ defineProps({
 </script>
 
 <style>
+@import "tailwindcss/theme" theme(reference);
+
 .control-btn {
   @apply relative isolate duration-200;
   @apply rounded-xl px-8 py-2.5;

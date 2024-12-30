@@ -21,6 +21,8 @@ defineOptions({ inheritAttrs: false });
 </script>
 
 <style>
+@import "tailwindcss/theme" theme(reference);
+
 .control-input {
   @apply min-h-10 w-full appearance-none rounded-xl px-4 py-0.5;
   @apply bg-white ring-1 ring-slate-200 shadow placeholder:text-slate-400;

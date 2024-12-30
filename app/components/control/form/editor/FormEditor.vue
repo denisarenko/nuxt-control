@@ -152,6 +152,8 @@ onBeforeUnmount(() => editor.value.destroy());
 </script>
 
 <style>
+@import "tailwindcss/theme" theme(reference);
+
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   @apply float-left text-slate-400 pointer-events-none h-0;

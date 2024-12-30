@@ -18,7 +18,7 @@
       leave-to-class="opacity-0"
       mode="out-in"
     >
-      <div v-if="!pending">
+      <div v-if="status !== 'pending'">
         <div class="text-xl md:text-2xl min-h-8 delay-100 mb-4">
           {{ quote?.quote || 'Nothing to say' }}
         </div>
@@ -34,5 +34,5 @@
 </template>
 
 <script setup>
-const { data: quote, pending } = useLazyFetch('https://dummyjson.com/quotes/random');
+const { data: quote, status } = useLazyFetch('https://dummyjson.com/quotes/random');
 </script>
