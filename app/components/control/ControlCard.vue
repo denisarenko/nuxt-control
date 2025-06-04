@@ -5,7 +5,10 @@
     data-radial
   >
     <div class="rounded-[11px] flex flex-col h-full">
-      <div v-if="image || record?.image" class="border-b p-3 flex border-slate-200 bg-white control-pattern-lines rounded-t-[11px]">
+      <div
+        v-if="image || record?.image"
+        class="border-b p-3 flex border-slate-200 bg-white control-pattern-lines rounded-t-[11px]"
+      >
         <img
           :src="image || record?.image"
           class="h-20 max-w-60 object-contain rounded-lg"
@@ -157,11 +160,3 @@ const removeRecord = async () => {
   }
 };
 </script>
-
-<style>
-@import "tailwindcss/theme" theme(reference);
-
-.control-details > div {
-  @apply bg-white shadow ring-1 ring-slate-200 rounded-md px-2 py-0.5;
-}
-</style>

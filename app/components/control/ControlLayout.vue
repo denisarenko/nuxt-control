@@ -104,6 +104,7 @@
 
 <script setup>
 import { useAuth } from '~/composables/auth.js';
+import '@/assets/css/control.css';
 
 useSeoMeta({ robots: 'noindex, nofollow' });
 
@@ -144,35 +145,3 @@ const gradientBorder = (event) => {
 onMounted(() => document.body.addEventListener('mousemove', gradientBorder));
 onUnmounted(() => document.body.removeEventListener('mousemove', gradientBorder));
 </script>
-
-<style>
-@import "tailwindcss/theme" theme(reference);
-
-.control-pattern-dots {
-  background-image: radial-gradient(circle at 2px 2px, theme('colors.slate.200') 1px, transparent 0);
-  background-size: 16px 16px;
-}
-
-.control-pattern-lines {
-  background-size: 12px 12px;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent 0,
-    theme('colors.slate.200') 1px,
-    transparent 0,
-    transparent 50%
-  );
-}
-
-[data-radial] {
-  --mouse-x: -100%;
-  --mouse-y: -100%;
-
-  background: radial-gradient(
-    200px circle at var(--mouse-x) var(--mouse-y),
-    theme('colors.orange.500'),
-    theme('colors.violet.400'),
-    theme('colors.slate.200')
-  );
-}
-</style>

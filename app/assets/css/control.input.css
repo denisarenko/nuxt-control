@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+.control-pattern-dots {
+  background-image: radial-gradient(circle at 2px 2px, theme('colors.slate.200') 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+.control-pattern-lines {
+  background-size: 12px 12px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0,
+    theme('colors.slate.200') 1px,
+    transparent 0,
+    transparent 50%
+  );
+}
+
+[data-radial] {
+  --mouse-x: -100%;
+  --mouse-y: -100%;
+
+  background: radial-gradient(
+    200px circle at var(--mouse-x) var(--mouse-y),
+    theme('colors.orange.500'),
+    theme('colors.violet.400'),
+    theme('colors.slate.200')
+  );
+}
+
+.control-details > div {
+  background-color: #fff;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1),
+    inset 0 0 0 1px var(--color-slate-200, currentColor);
+  border-radius: var(--radius-md);
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 0.5);
+}
+
+.control-btn {
+  @apply relative isolate duration-200;
+  @apply rounded-xl px-8 py-2.5;
+  @apply bg-gradient-to-bl from-blue-400 to-orange-400;
+  @apply hover:shadow-md hover:shadow-orange-400/20;
+}
+
+.control-btn:after {
+  @apply content-[''] bg-white/90 rounded-[11px];
+  @apply absolute inset-px -z-10;
+  @apply hover:bg-white/95 duration-200;
+  @apply hover:scale-y-[.93] hover:scale-x-[.96];
+}

@@ -1,4 +1,12 @@
-export const useUploadMedia = async ({ newFile, oldFile = null, directory = '', width = null, height = null, fit }) => {
+export const useUploadMedia = async ({
+  newFile,
+  oldFile = null,
+  directory = '',
+  width = null,
+  height = null,
+  fit = null,
+  noAuth = false
+}) => {
   if (oldFile) await $fetch(`/api/media/${oldFile}`, { method: 'DELETE' });
 
   const body = new FormData();
@@ -21,7 +29,8 @@ export const useUploadMedia = async ({ newFile, oldFile = null, directory = '', 
   const response = await $fetch(`/api/media/${directory}`, {
     method: 'POST',
     params,
-    body
+    body,
+    ...(noAuth && { headers: { NoAuth: noAuth } })
   });
 
   const urls = response.map((result) => result.url);
@@ -32,5 +41,7 @@ export const useUploadMedia = async ({ newFile, oldFile = null, directory = '', 
 };
 
 export const useDeleteMedia = async (path) => {
-  if (path) await $fetch(`/api/media/${path}`, { method: 'DELETE' });
+  if (path) {
+    await $fetch(`/api/media/${path}`, { method: 'DELETE' });
+  }
 };

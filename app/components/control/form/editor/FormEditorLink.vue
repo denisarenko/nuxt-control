@@ -3,11 +3,11 @@
     <input v-model="linkHref" type="url" placeholder="Enter URL" class="bg-transparent px-2 outline-none" />
 
     <button
-      v-if="linkHref && linkHref !== editor.getAttributes('link').href"
+      v-if="linkHref"
       type="button"
       class="leading-none text-xs"
       :class="[classButton, { '!ring-blue-500 text-blue-800': linkNoFollow }]"
-      @click="linkNoFollow = !linkNoFollow"
+      @click="toggleNoFollow"
     >
       Nofollow
     </button>
@@ -53,7 +53,15 @@ const setHref = () => {
   setLink.value = false;
 };
 
+const toggleNoFollow = () => {
+  linkNoFollow.value = !linkNoFollow.value;
+  setHref();
+};
+
 watchEffect(() => {
-  if (editor) linkHref.value = editor.getAttributes('link').href || '';
+  if (editor) {
+    linkHref.value = editor.getAttributes('link').href || '';
+    linkNoFollow.value = editor.getAttributes('link').rel?.includes('nofollow') || false;
+  }
 });
 </script>

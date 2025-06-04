@@ -1,5 +1,7 @@
 export default defineEventHandler(async (event) => {
-  if (!event.context?.auth) {
+  const noAuth = getHeader(event, 'NoAuth');
+
+  if (!event.context?.auth && !noAuth) {
     throw createError({ statusCode: 401, message: 'Unauthorized' });
   }
 

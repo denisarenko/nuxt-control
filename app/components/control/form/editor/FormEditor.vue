@@ -58,18 +58,18 @@ import Youtube from '@tiptap/extension-youtube';
 import TextAlign from '@tiptap/extension-text-align';
 import { ListItem } from '@tiptap/extension-list-item';
 
-const TextStyles = Extension.create({
-  addGlobalAttributes() {
-    return [
-      {
-        types: ['paragraph', 'link'],
-        attributes: {
-          style: { default: null }
-        }
-      }
-    ];
-  }
-});
+// const TextStyles = Extension.create({
+//   addGlobalAttributes() {
+//     return [
+//       {
+//         types: ['paragraph', 'link'],
+//         attributes: {
+//           style: { default: null }
+//         }
+//       }
+//     ];
+//   }
+// });
 
 const setLink = ref(false);
 const uploadImage = ref(false);
@@ -137,14 +137,9 @@ const editor = useEditor({
       width: '100%',
       nocookie: true,
       modestBranding: 'true'
-    }),
-    TextStyles
+    })
+    // TextStyles
   ],
-  editorProps: {
-    transformPastedHTML(html) {
-      return html.replace(/style='[^']*'|style="[^"]*"/g, '');
-    }
-  },
   onUpdate: ({ editor }) => (model.value = editor.getHTML())
 });
 
@@ -152,7 +147,7 @@ onBeforeUnmount(() => editor.value.destroy());
 </script>
 
 <style>
-@import "tailwindcss/theme" theme(reference);
+@import 'tailwindcss/theme' theme(reference);
 
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);

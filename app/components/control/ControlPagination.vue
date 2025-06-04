@@ -1,8 +1,8 @@
 <template>
-  <nav v-if="totalPages >= 2" class="flex justify-center text-sm *:min-w-10 *:duration-200">
+  <nav v-if="totalPages >= 2" class="flex justify-center text-sm">
     <button
       v-if="currentPage >= 2"
-      class="size-10 rounded-l-lg ring-1 ring-slate-200 shadow bg-white"
+      class="size-10 rounded-l-lg ring-1 ring-slate-200 shadow bg-white min-w-10 duration-200"
       title="Previous Page"
       @click="currentPage--"
     >
@@ -17,7 +17,7 @@
     <button
       v-for="page in pages"
       :key="page"
-      class="size-10 ring-1 ring-slate-200 shadow bg-white hidden first:rounded-l-lg last:rounded-r-lg md:block"
+      class="size-10 ring-1 ring-slate-200 shadow bg-white hidden first:rounded-l-lg last:rounded-r-lg md:block min-w-10 duration-200"
       :class="{
         'pointer-events-none font-semibold text-blue-600 !ring-blue-200 z-[1]': page === currentPage,
         'pointer-events-none text-slate-300': page === '...'
@@ -29,7 +29,7 @@
 
     <button
       v-if="totalPages > currentPage"
-      class="size-10 rounded-r-lg ring-1 ring-slate-200 shadow bg-white"
+      class="size-10 rounded-r-lg ring-1 ring-slate-200 shadow bg-white min-w-10 duration-200"
       title="Next Page"
       @click="currentPage++"
     >

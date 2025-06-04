@@ -69,21 +69,3 @@ defineProps({
   back: Boolean
 });
 </script>
-
-<style>
-@import "tailwindcss/theme" theme(reference);
-
-.control-btn {
-  @apply relative isolate duration-200;
-  @apply rounded-xl px-8 py-2.5;
-  @apply bg-gradient-to-bl from-blue-400 to-orange-400;
-  @apply hover:shadow-md hover:shadow-orange-400/20;
-
-  &:after {
-    @apply content-[''] bg-white/90 rounded-[11px];
-    @apply absolute inset-px -z-10;
-    @apply hover:bg-white/95 duration-200;
-    @apply hover:scale-y-[.93] hover:scale-x-[.96];
-  }
-}
-</style>

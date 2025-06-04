@@ -5,12 +5,7 @@
 
       <ControlFormDate name="name" placeholder="Enter date" label="Date" />
 
-      <ControlFormSelect
-        name="name"
-        placeholder="Select name"
-        label="Name"
-        :options="[1, 2, 3]"
-      />
+      <ControlFormSelect name="name" placeholder="Select name" label="Name" :options="[1, 2, 3]" />
 
       <ControlFormImage />
 
@@ -19,6 +14,16 @@
       <ControlFormCheckMulti :options="['1', '2', '3']" />
 
       <ControlFormSwitch label="Enter Name" />
+
+      <ControlCard />
+
+      <ControlEmpty />
+
+      <ControlTooltip />
+
+      <ControlQuote />
+
+      <ControlNav />
     </ControlBody>
   </ControlLayout>
 </template>
@@ -26,24 +31,24 @@
 <script setup>
 const menuLinks = [
   {
-    name: "Homepage",
-    link: "/",
+    name: 'Homepage',
+    link: '/'
   },
   {
-    name: "Blog",
-    divide: true,
+    name: 'Blog',
+    divide: true
   },
   {
-    name: "Posts",
-    link: "/",
+    name: 'Posts',
+    link: '/'
   },
   {
-    name: "Categories",
-    link: "/",
+    name: 'Categories',
+    link: '/'
   },
   {
-    name: "Authors",
-    link: "/",
-  },
+    name: 'Authors',
+    link: '/'
+  }
 ];
 </script>

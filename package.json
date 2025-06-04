@@ -1,6 +1,6 @@
 {
   "name": "nuxt-control",
-  "version": "1.0.37",
+  "version": "1.0.43",
   "private": false,
   "description": "Control UI Nuxt Layer",
   "type": "module",
@@ -13,6 +13,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.0.0-beta.8",
     "@tiptap/extension-image": "^2.3.2",
     "@tiptap/extension-link": "^2.3.2",
     "@tiptap/extension-list-item": "^2.6.6",
